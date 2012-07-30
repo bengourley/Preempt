@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Preempt Search Example</title>
+    <meta charset='utf-8'/>
+    <style>
+
+      /*
+       * Page styles
+       */
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: 'HelveticaNeue', 'Helvetica', Arial, sans-serif;
+        color: #333;
+        background: #eee;
+        font-size: 15px;
+      }
+      a {
+        color: #4aa;
+      }
+      .container {
+        width: 300px;
+        margin: 100px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 3px;
+        border: 1px solid #ddd;
+        box-shadow: 0px 4px 3px -2px rgba(0,0,0,0.1);
+      }
+
+      /*
+       * Minimal styles
+       */
+
+      form {
+        position: relative;
+        height: 20px;
+      }
+
+      input[type=text] {
+        border: 1px solid #ccc;
+        padding: 2px;
+        border-radius: 2px;
+        box-shadow: inset 0px 2px 3px rgba(0,0,0,0.1);
+        line-height: 15px;
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+      }
+
+      .preempt-root {
+        position: absolute;
+      }
+
+      .preempt-result-list {
+        border: 1px solid #ccc;
+        border-radius: 0px 0px 3px 3px;
+        background-color: #fff;
+      }
+
+      .preempt-result {
+        display: block;
+        padding: 2px;
+        text-decoration: none;
+      }
+
+      .cursor, .preempt-result:hover {
+        background-color: #eee;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <form>
+        <input type='text' name='search' placeholder='Search…'/>
+      </form>
+    </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://raw.github.com/benbarnett/jQuery-Animate-Enhanced/master/jquery.animate-enhanced.min.js"></script>
+    <script src="https://raw.github.com/documentcloud/underscore/master/underscore-min.js"></script>
+    <script src="../preempt.min.js"></script>
+    <script src="./js/example.js"></script>
+  </body>
+</html>
