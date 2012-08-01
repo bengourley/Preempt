@@ -145,9 +145,13 @@ Preempt.prototype.clear = function () {
   this.container.hide()
 }
 
+/*
+ * Render the list of results
+ * if it's not empty.
+ */
 Preempt.prototype.render = function () {
-  this.container.show()
   this.container.empty()
+  this.container.hide()
   if (this.results.length) {
     _.each(this.results, function (result, i) {
       if (i >= this.options.limit) return
@@ -158,8 +162,7 @@ Preempt.prototype.render = function () {
           .addClass('preempt-result')
       )
     }, this)
-  } else {
-    this.clear()
+    this.container.show()
   }
 }
 
