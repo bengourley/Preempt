@@ -31,6 +31,7 @@ function Preempt(element, options) {
 
   this.input.on('keyup', _.bind(this.handleKeyUp, this))
   this.input.on('keydown', _.bind(this.handleKeyDown, this))
+  $(window).on('resize', _.bind(this.position, this))
 
 }
 
@@ -44,11 +45,7 @@ Preempt.prototype.setup = function () {
   this.input.attr('autocomplete', 'off')
   this.root = $('<div/>').addClass('preempt-root')
   this.container = $('<div/>').addClass('preempt-result-list')
-  this.root.css(
-    { left: this.input.offset().left
-    , width: this.input.outerWidth()
-    , top: this.input.offset().top + this.input.outerHeight()
-    })
+  this.position()
   this.root.append(this.container)
   $('body').append(this.root)
   this.clear()
@@ -164,6 +161,17 @@ Preempt.prototype.render = function () {
     }, this)
     this.container.show()
   }
+}
+
+/*
+ * Position the root element
+ */
+Preempt.prototype.position = function () {
+  this.root.css(
+    { left: this.input.offset().left
+    , width: this.input.outerWidth()
+    , top: this.input.offset().top + this.input.outerHeight()
+    })
 }
 
 /**
