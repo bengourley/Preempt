@@ -58,7 +58,6 @@ Preempt.prototype.setup = function () {
  * for escape, up/down arrows and return.
  */
 Preempt.prototype.handleKeyUp = function (e) {
-  console.log(this.cursor, e.keyCode)
   if (e.keyCode === 27) {
     // Escape key, clear the result list
     this.clear()
