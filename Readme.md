@@ -1,4 +1,4 @@
-preempt-search
+Preempt
 =======
 
 Add pre-emptive searching to an input element. Pass in an async function
