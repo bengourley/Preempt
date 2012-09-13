@@ -23,7 +23,7 @@
   , 'Hilario Goodenough'
   ]
 
-  $('input[name=search]').preempt({
+  new window.Preempt($('input[name=search]'), {
     query: function (term, callback) {
       callback(
         names
@@ -31,7 +31,7 @@
             return name.toUpperCase().indexOf(term.toUpperCase()) !== -1
           })
           .map(function (name) {
-            return { text: name, link: '#/' + name }
+            return { href: '#/' + name, data: { text: name } }
           })
       )
     }
