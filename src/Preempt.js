@@ -12,7 +12,9 @@
  */
 var defaults =
   { limit: 5
-  , template : _.template('<span class="preempt-result"><%=text%></a>')
+  , template: _.template('<span class="preempt-result"><%=text%></a>')
+  , header: null
+  , footer: null
   }
 
 /**
@@ -47,7 +49,8 @@ Preempt.prototype.init = function () {
 Preempt.prototype.setup = function () {
   this.input.attr('autocomplete', 'off')
   this.root = $('<div/>').addClass('preempt-root')
-  this.container = $('<div/>').addClass('preempt-result-list')
+  this.container = $('<div/>').addClass('preempt-result-container')
+  this.resultsEl = $('<div/>').addClass('preempt-result-list')
   this.root.append(this.container)
   this.input.after(this.root)
   this.root.css(
@@ -55,6 +58,9 @@ Preempt.prototype.setup = function () {
            this.input.outerHeight(true)
     })
   this.clear()
+  if (this.options.header) this.container.append(this.options.header)
+  this.container.append(this.resultsEl)
+  if (this.options.footer) this.container.append(this.options.footer)
 }
 
 /**
@@ -67,7 +73,7 @@ Preempt.prototype.handleKeyUp = function (e) {
     this.clear()
   } else if (this.results.length && (e.keyCode === 38 || e.keyCode === 40)) {
 
-    var resultEls = this.container.children()
+    var resultEls = this.resultsEl.children()
 
     if (this.hasCursor()) {
       // Clear previous cursor if it exists
@@ -109,7 +115,9 @@ Preempt.prototype.handleKeyUp = function (e) {
 
     // Let the keypress populate the input field
     // and get the new result set
+    this.input.addClass('loading')
     this.getResults(_.bind(function (results) {
+      this.input.removeClass('loading')
       this.cursor = null
       this.results = results
       this.render()
@@ -168,12 +176,12 @@ Preempt.prototype.clear = function () {
  * if it's not empty.
  */
 Preempt.prototype.render = function () {
-  this.container.empty()
+  this.resultsEl.empty()
   this.container.hide()
   if (this.results.length) {
     _.each(this.results, function (result, i) {
       if (i >= this.options.limit) return
-      this.container.append(this.options.template(result.data))
+      this.resultsEl.append(this.options.template(result.data))
     }, this)
     this.container.show()
   }
