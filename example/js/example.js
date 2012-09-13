@@ -23,7 +23,7 @@
   , 'Hilario Goodenough'
   ]
 
-  new window.Preempt($('input[name=search]'), {
+  var p = new window.Preempt($('input[name=search]'), {
     query: function (term, callback) {
       callback(
         names
@@ -36,5 +36,6 @@
       )
     }
   })
+  p.init()
 
 }())

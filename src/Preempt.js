@@ -10,7 +10,10 @@
 /**
  * Default settings
  */
-var defaults = { limit: 5 }
+var defaults =
+  { limit: 5
+  , template : _.template('<span class="preempt-result"><%=text%></a>')
+  }
 
 /**
  * Constructor for Preempt objects
@@ -27,14 +30,14 @@ function Preempt(element, options) {
   // Merge options and defaults
   this.options = _.extend({}, defaults, options)
 
-  this.setup()
+}
 
+Preempt.prototype.init = function () {
+  this.setup()
   this.input.on('keyup', _.bind(this.handleKeyUp, this))
   this.input.on('keydown', _.bind(this.handleKeyDown, this))
   this.input.on('blur', _.bind(this.clear, this))
-
 }
-
 
 /**
  * Render the root element and position
@@ -48,7 +51,8 @@ Preempt.prototype.setup = function () {
   this.root.append(this.container)
   this.input.after(this.root)
   this.root.css(
-    { top: this.input.position().top + this.input.outerHeight(true)
+    { top: this.input.position().top +
+           this.input.outerHeight(true)
     })
   this.clear()
 }
@@ -169,15 +173,11 @@ Preempt.prototype.render = function () {
   if (this.results.length) {
     _.each(this.results, function (result, i) {
       if (i >= this.options.limit) return
-      this.container.append(this.template(result.data))
+      this.container.append(this.options.template(result.data))
     }, this)
     this.container.show()
   }
 }
-
-Preempt.prototype.template = _.template(
-  [ '<span class="preempt-result"><%=text%></a>'
-  ].join('\n'))
 
 if (window.module && window.require) {
   module('Preempt', function (module) {
