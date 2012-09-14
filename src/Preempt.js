@@ -12,7 +12,7 @@
  */
 var defaults =
   { limit: 5
-  , template: _.template('<span class="preempt-result"><%=text%></a>')
+  , template: _.template('<li class="preempt-result"><%=text%></li>')
   , header: null
   , footer: null
   }
@@ -48,12 +48,10 @@ Preempt.prototype.init = function () {
  */
 Preempt.prototype.setup = function () {
   this.input.attr('autocomplete', 'off')
-  this.root = $('<div/>').addClass('preempt-root')
   this.container = $('<div/>').addClass('preempt-result-container')
-  this.resultsEl = $('<div/>').addClass('preempt-result-list')
-  this.root.append(this.container)
-  this.input.after(this.root)
-  this.root.css(
+  this.resultsEl = $('<ul/>').addClass('preempt-result-list')
+  this.input.closest('form').append(this.container)
+  this.container.css(
     { top: this.input.position().top +
            this.input.outerHeight(true)
     })
