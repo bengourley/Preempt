@@ -50,7 +50,7 @@ Preempt.prototype.setup = function () {
   this.input.attr('autocomplete', 'off')
   this.container = $('<div/>').addClass('preempt-result-container')
   this.resultsEl = $('<ul/>').addClass('preempt-result-list')
-  this.input.closest('form').append(this.container)
+  this.input.after(this.container)
   this.container.css(
     { top: this.input.position().top +
            this.input.outerHeight(true)
