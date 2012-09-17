@@ -38,7 +38,6 @@ Preempt.prototype.init = function () {
   this.setup()
   this.input.on('keyup', _.bind(this.handleKeyUp, this))
   this.input.on('keydown', _.bind(this.handleKeyDown, this))
-  this.input.on('blur', _.bind(this.clear, this))
 }
 
 /**
@@ -134,6 +133,9 @@ Preempt.prototype.handleKeyDown = function (e) {
   if (e.keyCode === 38 || e.keyCode === 40) {
     e.preventDefault()
   }
+  if (e.keyCode === 9) {
+    this.clear()
+  }
 }
 
 /*
@@ -165,6 +167,24 @@ Preempt.prototype.clear = function () {
   this.results = []
   this.cursor = null
   this.container.hide()
+  $(document).off('click.preempt')
+  this.root.off('click')
+}
+
+/*
+ * Handle a click event
+ */
+Preempt.prototype.click = function (e) {
+  this.clear()
+}
+
+/*
+ * Show the results list
+ */
+Preempt.prototype.show = function () {
+  this.container.show()
+  $(document).one('click.preempt', _.bind(this.click, this))
+  this.root.on('click', function (e) { e.stopPropagation() })
 }
 
 /*
@@ -177,13 +197,18 @@ Preempt.prototype.render = function () {
   if (this.results.length) {
     _.each(this.results, function (result, i) {
       if (i >= this.options.limit) return
-      this.resultsEl.append(this.options.template(result.data))
+      this.resultsEl.append(
+        $(this.options.template(result.data))
+          .on('click', function () {
+            document.location.href = result.href
+          })
+        )
     }, this)
     this.root.css(
       { top: this.input.position().top +
              this.input.outerHeight(true)
       })
-    this.container.show()
+    this.show()
   }
 }
 
