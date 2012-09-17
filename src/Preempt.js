@@ -12,7 +12,7 @@
  */
 var defaults =
   { limit: 5
-  , template: _.template('<span class="preempt-result"><%=text%></a>')
+  , template: _.template('<span class="preempt-result"><%=text%></span>')
   , header: null
   , footer: null
   }
