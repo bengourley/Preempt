@@ -53,10 +53,6 @@ Preempt.prototype.setup = function () {
   this.resultsEl = $('<div/>').addClass('preempt-result-list')
   this.root.append(this.container)
   this.input.after(this.root)
-  this.root.css(
-    { top: this.input.position().top +
-           this.input.outerHeight(true)
-    })
   this.clear()
   if (this.options.header) this.container.append(this.options.header)
   this.container.append(this.resultsEl)
@@ -183,6 +179,10 @@ Preempt.prototype.render = function () {
       if (i >= this.options.limit) return
       this.resultsEl.append(this.options.template(result.data))
     }, this)
+    this.root.css(
+      { top: this.input.position().top +
+             this.input.outerHeight(true)
+      })
     this.container.show()
   }
 }
