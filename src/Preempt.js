@@ -1,9 +1,9 @@
 /**
  * preemt.js
  * ==========
- * https://github.com/bengourley/ticker
+ * https://github.com/bengourley/Preempt
  * Licenced under the New BSD License
-*/
+ */
 
 (function() {
 
