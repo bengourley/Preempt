@@ -15,6 +15,7 @@ var defaults =
   , template: _.template('<li class="preempt-result"><%=text%></li>')
   , header: null
   , footer: null
+  , urlProperty: 'href'
   }
 
 /**
@@ -104,7 +105,7 @@ Preempt.prototype.handleKeyUp = function (e) {
   } else if (this.results.length && e.keyCode === 13 && this.hasCursor()) {
 
     // Go to the link of the item under the cursor
-    document.location.href = this.results[this.cursor].href
+    document.location.href = this.results[this.cursor][this.options.urlProperty]
 
   } else {
 
@@ -197,12 +198,7 @@ Preempt.prototype.render = function () {
   if (this.results.length) {
     _.each(this.results, function (result, i) {
       if (i >= this.options.limit) return
-      this.resultsEl.append(
-        $(this.options.template(result.data))
-          .on('click', function () {
-            document.location.href = result.href
-          })
-        )
+      this.resultsEl.append(this.options.template(result))
     }, this)
     this.root.css(
       { top: this.input.position().top +

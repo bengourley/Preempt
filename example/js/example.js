@@ -31,7 +31,7 @@
             return name.toUpperCase().indexOf(term.toUpperCase()) !== -1
           })
           .map(function (name) {
-            return { href: '#/' + name, data: { text: name } }
+            return { href: '#/' + name, text: name }
           })
       )
     }
