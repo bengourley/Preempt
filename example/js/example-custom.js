@@ -39,7 +39,12 @@
       }
     , $root: $('.container.preempt')
     , template: _.template($('#result-template').html())
-  })
+    , onClick: function(el) {
+        console.log(el)
+        el.toggleClass('selected')
+      }
+    }
+  )
   p.init()
 
 }())
