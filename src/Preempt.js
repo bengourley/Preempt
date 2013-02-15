@@ -24,6 +24,7 @@ var defaults =
   , $root: null
   , $container: null
   , $results: null
+  , onClick: null // function() {} override element click method with scope to this.
   }
 
 /**
@@ -213,8 +214,8 @@ Preempt.prototype.render = function () {
       if (i >= this.options.limit) return
       var el = $(this.options.template(result))
       el.on('click', _.bind(function () {
-        this.input.val(el.text())
-        this.clear()
+        (this.options.onClick) ? this.options.onClick.bind(this)(el)
+        : (this.input.val(el.text()) && this.clear())
       }, this))
       this.resultsEl.append(el)
     }, this)
