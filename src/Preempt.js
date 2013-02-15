@@ -1,11 +1,15 @@
+if (typeof module !== 'undefined') {
+  module.exports = Preempt
+} else {
+  window.Preempt = Preempt
+}
+
 /**
  * preemt.js
  * ==========
  * https://github.com/bengourley/Preempt
  * Licenced under the New BSD License
  */
-
-(function() {
 
 /**
  * Default settings
@@ -16,6 +20,7 @@ var defaults =
   , header: null
   , footer: null
   , urlProperty: 'href'
+  , updateInput: false
   }
 
 /**
@@ -100,12 +105,17 @@ Preempt.prototype.handleKeyUp = function (e) {
       }
     }
 
-    resultEls.eq(this.cursor).addClass('cursor')
+    var cursor = resultEls.eq(this.cursor).addClass('cursor')
+    this.input.val(cursor.text())
 
   } else if (this.results.length && e.keyCode === 13 && this.hasCursor()) {
 
     // Go to the link of the item under the cursor
-    document.location.href = this.results[this.cursor][this.options.urlProperty]
+    if (this.options.urlProperty) {
+      document.location.href = this.results[this.cursor][this.options.urlProperty]
+    } else {
+      this.clear()
+    }
 
   } else {
 
@@ -198,7 +208,12 @@ Preempt.prototype.render = function () {
   if (this.results.length) {
     _.each(this.results, function (result, i) {
       if (i >= this.options.limit) return
-      this.resultsEl.append(this.options.template(result))
+      var el = $(this.options.template(result))
+      el.on('click', _.bind(function () {
+        this.input.val(el.text())
+        this.clear()
+      }, this))
+      this.resultsEl.append(el)
     }, this)
     this.root.css(
       { top: this.input.position().top +
@@ -207,13 +222,3 @@ Preempt.prototype.render = function () {
     this.show()
   }
 }
-
-if (window.module && window.require) {
-  module('Preempt', function (module) {
-    module.exports = Preempt
-  })
-} else {
-  window.Preempt = Preempt
-}
-
-})()
