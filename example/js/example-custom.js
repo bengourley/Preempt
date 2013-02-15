@@ -23,8 +23,6 @@
   , 'Hilario Goodenough'
   ]
 
-  var template = $('#result-template').html()
-
   var p = new window.Preempt($('input[name=search]'),
     { query: function (term, callback) {
         callback(
@@ -38,6 +36,7 @@
         )
       }
     , $root: $('.container.preempt')
+    , $results: $('<div />')
     , template: _.template($('#result-template').html())
     , onClick: function(el) {
         el.toggleClass('selected')
