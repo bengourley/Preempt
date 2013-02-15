@@ -60,7 +60,7 @@ Preempt.prototype.setup = function () {
   this.container = this.options.$container || $('<div/>').addClass('preempt-result-container')
   this.resultsEl = this.options.$results || $('<ul/>').addClass('preempt-result-list')
   this.root.append(this.container)
-  this.input.after(this.root)
+  if (!this.options.$root) this.input.after(this.root)
   this.clear()
   if (this.options.header) this.container.append(this.options.header)
   this.container.append(this.resultsEl)
