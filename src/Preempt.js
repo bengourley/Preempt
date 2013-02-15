@@ -21,6 +21,9 @@ var defaults =
   , footer: null
   , urlProperty: 'href'
   , updateInput: false
+  , $root: null
+  , $container: null
+  , $results: null
   }
 
 /**
@@ -53,9 +56,9 @@ Preempt.prototype.init = function () {
  */
 Preempt.prototype.setup = function () {
   this.input.attr('autocomplete', 'off')
-  this.root = $('<div/>').addClass('preempt-root')
-  this.container = $('<div/>').addClass('preempt-result-container')
-  this.resultsEl = $('<ul/>').addClass('preempt-result-list')
+  this.root = this.options.$root || $('<div/>').addClass('preempt-root')
+  this.container = this.options.$container || $('<div/>').addClass('preempt-result-container')
+  this.resultsEl = this.options.$results || $('<ul/>').addClass('preempt-result-list')
   this.root.append(this.container)
   this.input.after(this.root)
   this.clear()
