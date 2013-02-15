@@ -40,8 +40,11 @@
     , $root: $('.container.preempt')
     , template: _.template($('#result-template').html())
     , onClick: function(el) {
-        console.log(el)
         el.toggleClass('selected')
+      }
+    , clear: function() {
+        $(document).off('click.preempt')
+        this.root.off('click')
       }
     }
   )
