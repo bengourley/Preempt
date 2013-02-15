@@ -25,6 +25,7 @@ var defaults =
   , $container: null
   , $results: null
   , onClick: null // function() {} override element click method with scope to this.
+  , clear: null // override clear function
   }
 
 /**
@@ -190,7 +191,8 @@ Preempt.prototype.clear = function () {
  * Handle a click event
  */
 Preempt.prototype.click = function (e) {
-  this.clear()
+  var clear = (this.options.clear) ? this.options.clear.bind(this, e) : this.clear.bind(this)
+  clear()
 }
 
 /*
