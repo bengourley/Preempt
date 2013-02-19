@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Preempt Search Example</title>
+    <meta charset='utf-8'/>
+    <style>
+
+      /*
+       * Page styles
+       */
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: 'HelveticaNeue', 'Helvetica', Arial, sans-serif;
+        color: #333;
+        background: #eee;
+        font-size: 15px;
+      }
+      a {
+        color: #4aa;
+      }
+      .container {
+        width: 300px;
+        margin: 100px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 3px;
+        border: 1px solid #ddd;
+        box-shadow: 0px 4px 3px -2px rgba(0,0,0,0.1);
+      }
+
+      /*
+       * Minimal styles
+       */
+
+      form {
+        position: relative;
+        height: 20px;
+      }
+
+      input[type=text] {
+        border: 1px solid #ccc;
+        padding: 2px;
+        border-radius: 2px;
+        box-shadow: inset 0px 2px 3px rgba(0,0,0,0.1);
+        line-height: 15px;
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+      }
+
+      .preempt-root {
+        position: absolute;
+      }
+
+      .preempt-result-list {
+        background-color: #fff;
+      }
+
+      .preempt-result {
+        display: block;
+        padding: 2px;
+        text-decoration: none;
+      }
+
+      .cursor, .preempt-result:hover {
+        background-color: #eee;
+      }
+
+      .media .img {
+        float: left;
+        margin-right: 10px;
+      }
+      .media .img img {
+        display: block;
+      }
+
+      .list-item {
+        position: relative;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        background-color: #fff;
+        border: 1px solid #aaa;
+        -webkit-box-shadow: 0px 1px 3px rgba(0,0,0,0.2);
+        box-shadow: 0px 1px 3px rgba(0,0,0,0.2);
+        height:102px;
+      }
+
+      .selected {
+        border: 1px solid #bc4;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <form>
+        <input type='text' name='search' placeholder='Search…'/>
+      </form>
+    </div>
+    <div class="container preempt">
+    </div>
+
+    </div>
+    <script type="text/template" id="result-template">
+      <div class="media list-item">
+
+        <!-- img class applied directly to an image -->
+        <img class="img" src="http://img.clockte.ch/100x100" alt="Hill Valley Clock Tower" />
+
+        <!-- body contains basic text -->
+        <div class="body">
+          <h3><%=text%></h3>
+          <p>Lots of superfluous information here.</p>
+        </div>
+      </div>
+    </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://raw.github.com/documentcloud/underscore/master/underscore-min.js"></script>
+    <script src="../src/Preempt.js"></script>
+    <script src="./js/example-custom.js"></script>
+  </body>
+</html>

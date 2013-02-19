@@ -1,11 +1,15 @@
+if (typeof module !== 'undefined') {
+  module.exports = Preempt
+} else {
+  window.Preempt = Preempt
+}
+
 /**
  * preemt.js
  * ==========
  * https://github.com/bengourley/Preempt
  * Licenced under the New BSD License
  */
-
-(function() {
 
 /**
  * Default settings
@@ -16,6 +20,13 @@ var defaults =
   , header: null
   , footer: null
   , urlProperty: 'href'
+  , updateInput: false
+  , $root: null
+  , $container: null
+  , $results: null
+  , onClick: null // function() {} override element click method with scope to this.
+  , clear: null // override clear function
+  , onZeroInputLength: null
   }
 
 /**
@@ -48,11 +59,11 @@ Preempt.prototype.init = function () {
  */
 Preempt.prototype.setup = function () {
   this.input.attr('autocomplete', 'off')
-  this.root = $('<div/>').addClass('preempt-root')
-  this.container = $('<div/>').addClass('preempt-result-container')
-  this.resultsEl = $('<ul/>').addClass('preempt-result-list')
+  this.root = this.options.$root || $('<div/>').addClass('preempt-root')
+  this.container = this.options.$container || $('<div/>').addClass('preempt-result-container')
+  this.resultsEl = this.options.$results || $('<ul/>').addClass('preempt-result-list')
   this.root.append(this.container)
-  this.input.after(this.root)
+  if (!this.options.$root) this.input.after(this.root)
   this.clear()
   if (this.options.header) this.container.append(this.options.header)
   this.container.append(this.resultsEl)
@@ -100,13 +111,20 @@ Preempt.prototype.handleKeyUp = function (e) {
       }
     }
 
-    resultEls.eq(this.cursor).addClass('cursor')
+    var cursor = resultEls.eq(this.cursor).addClass('cursor')
+    this.input.val(cursor.text())
 
   } else if (this.results.length && e.keyCode === 13 && this.hasCursor()) {
 
     // Go to the link of the item under the cursor
-    document.location.href = this.results[this.cursor][this.options.urlProperty]
+    if (this.options.urlProperty) {
+      document.location.href = this.results[this.cursor][this.options.urlProperty]
+    } else {
+      this.clear()
+    }
 
+  } else if (this.input.val().length === 0) {
+    if (this.options.onZeroInputLength) this.options.onZeroInputLength.bind(this)()
   } else {
 
     // Let the keypress populate the input field
@@ -176,7 +194,8 @@ Preempt.prototype.clear = function () {
  * Handle a click event
  */
 Preempt.prototype.click = function (e) {
-  this.clear()
+  var clear = (this.options.clear) ? this.options.clear.bind(this, e) : this.clear.bind(this)
+  clear()
 }
 
 /*
@@ -198,7 +217,12 @@ Preempt.prototype.render = function () {
   if (this.results.length) {
     _.each(this.results, function (result, i) {
       if (i >= this.options.limit) return
-      this.resultsEl.append(this.options.template(result))
+      var el = $(this.options.template(result))
+      el.on('click', _.bind(function () {
+        (this.options.onClick) ? this.options.onClick.bind(this)(el)
+        : (this.input.val(el.text()) && this.clear())
+      }, this))
+      this.resultsEl.append(el)
     }, this)
     this.root.css(
       { top: this.input.position().top +
@@ -207,13 +231,3 @@ Preempt.prototype.render = function () {
     this.show()
   }
 }
-
-if (window.module && window.require) {
-  module('Preempt', function (module) {
-    module.exports = Preempt
-  })
-} else {
-  window.Preempt = Preempt
-}
-
-})()
