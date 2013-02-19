@@ -26,6 +26,7 @@ var defaults =
   , $results: null
   , onClick: null // function() {} override element click method with scope to this.
   , clear: null // override clear function
+  , onZeroInputLength: null
   }
 
 /**
@@ -122,6 +123,8 @@ Preempt.prototype.handleKeyUp = function (e) {
       this.clear()
     }
 
+  } else if (this.input.val().length === 0) {
+    if (this.options.onZeroInputLength) this.options.onZeroInputLength.bind(this)()
   } else {
 
     // Let the keypress populate the input field
